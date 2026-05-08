@@ -1,2 +1,3 @@
-DEBIAN_FRONTEND=noninteractive apt install --yes git ansible
+#!/bin/bash
+apt install -y git ansible
 git clone https://github.com/DITCOnsultants/DockerWorkshop.git
