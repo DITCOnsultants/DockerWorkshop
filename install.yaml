@@ -1,0 +1,31 @@
+---
+# Algemeen playbook voor alle standaard zaken
+- hosts: local
+  connection: local
+
+  tasks:
+    - name: Upgrade the OS (apt-get dist-upgrade)
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: "Ensure required packages are installed"
+      apt:
+        name: "{{ packages }}"      
+      vars:
+        packages:
+        - docker.io
+        - docker-compose
+        - molly-guard
+
+    # - name: "Adjust group membership for docker usage"
+    #   user:
+    #     name: workshop
+    #     groups: docker
+    #     append: yes
+
+    - name: "Ensure docker data dir is present"
+      file:
+        path: /opt/docker
+        state: directory
