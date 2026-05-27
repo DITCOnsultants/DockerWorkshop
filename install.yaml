@@ -29,3 +29,21 @@
       file:
         path: /opt/docker
         state: directory
+
+    - name: "Docker settings"
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "data-root": "/opt/docker_root/",
+            "log-driver": "json-file",
+            "log-opts": {
+              "max-size": "10m",
+              "max-file": "3"
+            },
+            "default-address-pools": [
+              {
+                "base": "100.64.0.0/16", "size": 24
+              }
+            ]
+          }
