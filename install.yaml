@@ -1,6 +1,6 @@
 ---
 # Algemeen playbook voor alle standaard zaken
-- hosts: local
+- hosts: localhost
   connection: local
 
   tasks:
