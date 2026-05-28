@@ -2,7 +2,7 @@
 
 # =============================================================================
 # Welkom bij de Docker workshop.
-# Usage: wget -O - https://docker.frotmail.nl/ | bash
+# Usage: wget -qO - https://docker.frotmail.nl/ | bash
 #
 # Dit script zet wat basis zaken klaar:
 # 1. Het instaleert de packages ansible en git, deze hebben we later nodig
@@ -40,9 +40,8 @@ chown $TARGET_USER_ID:$TARGET_USER_ID $TARGET_DIR
 # Clone repo
 echo "Switching to user $TARGET_USER"
 su - "$TARGET_USER" << EOF
-  echo "Cloning repo into $TARGET_DIR" 
   git clone https://github.com/DITCOnsultants/DockerWorkshop.git $TARGET_DIR
 EOF
 
 echo "Klaar, als er geen fouten zijn opgetreden kan je verder gaan met de volgende stap:"
-echo "Vanuit de workshop map: ansibe-playbook install.yaml"
+echo "Vanuit de map $TARGET_DIR: ansible-playbook install.yaml"
