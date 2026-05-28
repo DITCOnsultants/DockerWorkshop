@@ -4,7 +4,7 @@
 # Dit script installeert een aantal requirements 
 # en zet vervolgens een kopie van de repo klaar.
 
-# Usage: wget -O - https://docker.frotmail.nl/ | sh
+# Usage: wget -O - https://docker.frotmail.nl/ | bash
 
 # Controleer eerst of we de juiste rechten hebben om zaken te installeren:
 if [[ $EUID -ne 0 ]]
@@ -25,11 +25,12 @@ if [ -z "$TARGET_USER" ]; then
     exit 1
 fi
 usermod -a -G docker "$TARGET_USER"
+mkdir /opt/workshop
+chown 1000:1000 /opt/workshop
 
 echo "Switching to user $TARGET_USER"
 su - "$TARGET_USER" << EOF
   echo "Cloning repo into /opt/workshop" 
-  mkdir /opt/workshop
   cd /opt/
   git clone https://github.com/DITCOnsultants/DockerWorkshop.git workshop
 EOF
