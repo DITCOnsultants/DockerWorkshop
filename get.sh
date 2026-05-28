@@ -27,14 +27,11 @@ apt install -y \
   git \
   ansible 1> /dev/null
 
-# Geef de normale user docker rechten
-echo "Give regular user docker permissions"
 TARGET_USER=$(id -nu $TARGET_USER_ID 2>/dev/null)
 if [ -z "$TARGET_USER" ]; then
     echo "Error: No user found with UID $TARGET_USER_ID."
     exit 1
 fi
-usermod -a -G docker "$TARGET_USER"
 
 # Maak de workshop map en geef user rechten
 mkdir $TARGET_DIR

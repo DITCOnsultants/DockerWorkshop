@@ -19,6 +19,20 @@
         - docker-compose
         - molly-guard
 
+    - name: Identify username associated with UID 1000
+      command: "id -nu 1000"
+      register: user_discovery
+      changed_when: false
+      failed_when: user_discovery.rc != 0
+      ignore_errors: false
+
+    - name: Add the discovered user to the docker group
+      user:
+        name: "{{ user_discovery.stdout }}"
+        groups: "docker"
+        append: true
+      register: user_mod
+
     - name: "Ensure docker data dir is present"
       file:
         path: /opt/docker
