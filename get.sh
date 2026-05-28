@@ -46,3 +46,6 @@ su - "$TARGET_USER" << EOF
   echo "Cloning repo into $TARGET_DIR" 
   git clone https://github.com/DITCOnsultants/DockerWorkshop.git $TARGET_DIR
 EOF
+
+echo "Klaar, als er geen fouten zijn opgetreden kan je verder gaan met de volgende stap:"
+echo "Vanuit de workshop map: ansibe-playbook install.yaml"

@@ -19,12 +19,6 @@
         - docker-compose
         - molly-guard
 
-    # - name: "Adjust group membership for docker usage"
-    #   user:
-    #     name: workshop
-    #     groups: docker
-    #     append: yes
-
     - name: "Ensure docker data dir is present"
       file:
         path: /opt/docker
