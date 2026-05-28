@@ -40,7 +40,7 @@ chown $TARGET_USER_ID:$TARGET_USER_ID $TARGET_DIR
 # Clone repo
 echo "Switching to user $TARGET_USER"
 su - "$TARGET_USER" << EOF
-  git clone https://github.com/DITCOnsultants/DockerWorkshop.git $TARGET_DIR
+  git clone $REPO_URL $TARGET_DIR
 EOF
 
 echo "Klaar, als er geen fouten zijn opgetreden kan je verder gaan met de volgende stap:"
