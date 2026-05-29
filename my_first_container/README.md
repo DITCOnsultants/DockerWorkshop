@@ -54,5 +54,5 @@ Doel:
    ```
 8. **Start een container met het volgende commando:**
    ```bash
-   docker run --name test02 --rm -p 8889:80 -v /opt/workshop/my_first_container/index.html:/var/share/nginx/html/index.html
+   docker run --name test02 --rm -p 8889:80 -v /opt/workshop/my_first_container/index.html:/var/share/nginx/html/index.html nginx
    ```
