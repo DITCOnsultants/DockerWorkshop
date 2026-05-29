@@ -21,6 +21,7 @@
         - joe
         - nano
         - openssh-server
+        - sudo
 
     - name: Identify username associated with UID 1000
       command: "id -nu 1000"
@@ -32,7 +33,9 @@
     - name: Add the discovered user to the docker group
       user:
         name: "{{ user_discovery.stdout }}"
-        groups: "docker"
+        groups:
+          - docker
+          - sudo
         append: true
       register: user_mod
 
