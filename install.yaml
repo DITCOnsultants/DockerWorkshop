@@ -30,7 +30,7 @@
       failed_when: user_discovery.rc != 0
       ignore_errors: false
 
-    - name: Add the discovered user to the docker group
+    - name: Add the discovered user to the docker and sudo group
       user:
         name: "{{ user_discovery.stdout }}"
         groups:
@@ -39,17 +39,16 @@
         append: true
       register: user_mod
 
-    - name: "Ensure docker data dir is present"
-      file:
-        path: /opt/docker
-        state: directory
+    # - name: "Ensure docker data dir is present"
+    #   file:
+    #     path: /opt/docker
+    #     state: directory
 
     - name: "Docker settings"
       copy:
         dest: /etc/docker/daemon.json
         content: |
           {
-            "data-root": "/opt/docker_root/",
             "log-driver": "json-file",
             "log-opts": {
               "max-size": "10m",
