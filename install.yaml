@@ -18,6 +18,9 @@
         - docker.io
         - docker-compose
         - molly-guard
+        - joe
+        - nano
+        - openssh-server
 
     - name: Identify username associated with UID 1000
       command: "id -nu 1000"
