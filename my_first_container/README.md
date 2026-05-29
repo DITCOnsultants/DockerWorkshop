@@ -1,3 +1,8 @@
+Doel:
+- Wat is een container
+- Wat is een image
+- Waar gebruik je volumes voor
+
 
 1. **Start de container:**
    ```bash
@@ -40,4 +45,14 @@
    Druk op `CTRL-C` in het terminalvenster waarin je container is gestart.
 
 7. **Start opnieuw & vergelijk:**  
-   Start de container opnieuw. Wat krijg je nu te zien als je de pagina ververst?  
+   Start de container opnieuw. Wat krijg je nu te zien als je de pagina ververst?
+
+8. **Stop en verwijder de container**
+   ```bash
+   docker kill test01
+   docker rm test01
+   ```
+8. **Start een container met het volgende commando:**
+   ```bash
+   docker run --name test02 --rm -p 8889:80 -v /opt/workshop/my_first_container/index.html:/var/share/nginx/html/index.html
+   ```
