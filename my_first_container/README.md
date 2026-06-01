@@ -56,3 +56,13 @@ Doel:
    ```bash
    docker run --name test02 --rm -p 8889:80 -v /opt/workshop/my_first_container/index.html:/usr/share/nginx/html/index.html nginx
    ```
+9. **Pas de index.html aan**
+   ```bash
+   cd /opt/workshop/my_first_container
+   echo "Bye!" > index.html
+   ```
+   Welke pagina wordt nu geserveerd?
+   En wat krijg je na een:
+   ```bash
+   git restore index.html
+   ```

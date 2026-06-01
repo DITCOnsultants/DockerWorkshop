@@ -10,6 +10,9 @@
 # 3. Het maakt een kopie van de repository op github in de map /opt/workshop
 # =============================================================================
 
+# Set -e zorgt ervoor dat als er een commando fout gaat; het script stopt
+set -e
+
 # Configuration:
 REPO_URL="https://github.com/DITCOnsultants/DockerWorkshop.git"
 TARGET_DIR="/opt/workshop"
@@ -23,6 +26,7 @@ then
 fi
 # Installeer packages
 echo "Installing required packages..."
+apt update 1> /dev/null
 apt install -y \
   git \
   ansible 1> /dev/null

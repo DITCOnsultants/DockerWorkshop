@@ -4,7 +4,7 @@
   connection: local
 
   tasks:
-    - name: Upgrade the OS (apt-get dist-upgrade)
+    - name: Upgrade the APT cache and upgrade all packages to the latest version
       ansible.builtin.apt:
         upgrade: dist
         update_cache: yes
@@ -60,3 +60,9 @@
               }
             ]
           }
+      notify: Restart Docker
+  handlers:
+    - name: Restart Docker
+      service:
+        name: docker
+        state: restarted 
