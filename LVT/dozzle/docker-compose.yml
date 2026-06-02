@@ -1,0 +1,12 @@
+---
+services:
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOZZLE_ENABLE_SHELL=true
+      - DOZZLE_ENABLE_ACTIONS=true
+    ports:
+      - 8888:8080
