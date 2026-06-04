@@ -77,3 +77,4 @@ services:
 networks:
   forgejo-net:
     driver: bridge
+    name: forgejo-net

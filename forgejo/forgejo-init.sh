@@ -104,6 +104,9 @@ ${YAML_LABELS}
 cache:
   enabled: false
 
+container:
+  network: forgejo-net
+
 host:
   workdir: /tmp/forgejo-runner
 

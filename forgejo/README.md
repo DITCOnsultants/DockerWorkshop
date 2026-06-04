@@ -40,3 +40,16 @@ sudo docker compose up -d
 # 8. Show logs
 sudo docker compose logs
 ```
+
+# 9. Reset the environment
+```bash
+# remove containers
+sudo docker compose down
+# remove data
+sudo rm -rf forgejo-data/ runner-data/
+# precreate volumes with permissions
+mkdir -p forgejo-data runner-data
+sudo chown forgejo:forgejo forgejo-data runner-data
+# start containers
+sudo docker compose up
+```
