@@ -18,7 +18,7 @@ services:
       FORGEJO__service__REQUIRE_SIGNIN_VIEW: "true"
       FORGEJO__log__LEVEL: ${FORGEJO_LOG_LEVEL:-warn}
     volumes:
-      - ./forgejo-data:/data
+      - /opt/docker/forgejo/data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
@@ -50,7 +50,7 @@ services:
       RUNNER_LABELS: ${RUNNER_LABELS:-ubuntu-latest:docker://catthehacker/ubuntu:act-latest}
       SEED_REPO_URL: ${SEED_REPO_URL:-}
     volumes:
-      - ./forgejo-data:/data
+      - /opt/docker/forgejo/data:/data
       - ./forgejo-init.sh:/forgejo-init.sh:ro
     networks:
       - forgejo-net
@@ -67,8 +67,8 @@ services:
       forgejo-init:
         condition: service_completed_successfully
     volumes:
-      - ./runner-data:/data
-      - ./forgejo-data/runner.yaml:/runner.yaml:ro
+      - /opt/docker/forgejo/runner:/data
+      - /opt/docker/forgejo/data/runner.yaml:/runner.yaml:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - forgejo-net

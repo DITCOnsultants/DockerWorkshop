@@ -31,8 +31,10 @@ $EDITOR .env
 # Required: ADMIN_PASSWORD — everything else has a working default
 
 # 6. Create the data directories owned by the forgejo system account
-mkdir -p forgejo-data runner-data
-sudo chown forgejo:forgejo forgejo-data runner-data
+mkdir -p /opt/docker/forgejo/data
+mkdir -p /opt/docker/forgejo/runner
+
+sudo chown forgejo:forgejo -R /opt/docker/forgejo
 
 # 7. Deploy
 sudo docker compose up -d
@@ -46,10 +48,11 @@ sudo docker compose logs
 # remove containers
 sudo docker compose down
 # remove data
-sudo rm -rf forgejo-data/ runner-data/
+sudo rm -rf /opt/docker/forgejo
 # precreate volumes with permissions
-mkdir -p forgejo-data runner-data
-sudo chown forgejo:forgejo forgejo-data runner-data
+mkdir -p /opt/docker/forgejo/data
+mkdir -p /opt/docker/forgejo/runner
+sudo chown forgejo:forgejo -R /opt/docker/forgejo
 # start containers
 sudo docker compose up
 ```
