@@ -83,16 +83,37 @@ else
 
   [ -z "${UUID}" ] && die "Runner registration failed — got empty UUID."
 
-  # Convert comma-separated labels to YAML list entries
+  # Convert comma-separated labels to indented YAML list entries
   YAML_LABELS=""
   IFS=',' read -ra label_array <<< "${RUNNER_LABELS}"
   for label in "${label_array[@]}"; do
-    YAML_LABELS="${YAML_LABELS}    - \"${label}\"\n"
+    YAML_LABELS="${YAML_LABELS}    - \"${label}\"
+"
   done
 
-  printf "log:\n  level: info\n\nrunner:\n  capacity: 1\n  timeout: 3h\n  insecure: false\n  labels:\n%b\ncache:\n  enabled: false\n\nhost:\n  workdir: /tmp/forgejo-runner\n\nserver:\n  connections:\n    forgejo:\n      url: %s\n      uuid: %s\n      token: %s\n" \
-    "${YAML_LABELS}" "${FORGEJO_URL}" "${UUID}" "${SECRET}" \
-    > "${RUNNER_CONFIG_FILE}"
+  cat > "${RUNNER_CONFIG_FILE}" <<EOF
+log:
+  level: info
+
+runner:
+  capacity: 1
+  timeout: 3h
+  insecure: false
+  labels:
+${YAML_LABELS}
+cache:
+  enabled: false
+
+host:
+  workdir: /tmp/forgejo-runner
+
+server:
+  connections:
+    forgejo:
+      url: ${FORGEJO_URL}
+      uuid: ${UUID}
+      token: ${SECRET}
+EOF
   chmod 600 "${RUNNER_CONFIG_FILE}"
   ok "Runner '${RUNNER_NAME}' registered. Config saved to ${RUNNER_CONFIG_FILE}."
 fi

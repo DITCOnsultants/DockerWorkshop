@@ -69,11 +69,10 @@ services:
     volumes:
       - ./runner-data:/data
       - ./forgejo-data/runner.yaml:/runner.yaml:ro
-      - ./forgejo-runner.sh:/forgejo-runner.sh:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - forgejo-net
-    entrypoint: ["/bin/bash", "/forgejo-runner.sh"]
+    entrypoint: ["forgejo-runner", "daemon", "-c", "/runner.yaml"]
 
 networks:
   forgejo-net:
