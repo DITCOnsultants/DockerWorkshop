@@ -36,4 +36,4 @@ then
 else
   docker compose up -d
 fi
-echo "Done: go to http://[server-ip]:3000 and login using admin / $PASS"
+echo "Done: go to http://[server-ip]:3000 and login using forgejo-admin / $PASS"
