@@ -10,7 +10,7 @@ services:
     volumes:
       - /opt/docker/webtop:/config
     ports:
-      - 3000:3000
+      # - 3000:3000  # HTTP niet nodig, plus botst met forgejo
       - 3001:3001
     shm_size: "1gb"
     restart: unless-stopped
