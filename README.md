@@ -19,7 +19,8 @@ Voordelen:
 - Minder resources nodig
 
 Nadelen:
-- Isolatie is minder/niet aanwezig
+- Vergeleken met een VM: isolatie is minder/niet aanwezig
+- Kernel is gedeeld
 
 ---
 
@@ -31,8 +32,8 @@ Een image is:
 Bestaat uit:
 - Layers (immutable)
 - Base image (bv. Debian, Alpine)
-- Applicatie code
 - Dependencies
+- Applicatie code
 
 ---
 
@@ -63,3 +64,19 @@ Dit betekent:
 - Eigen processen
 
 ---
+
+# Deze workshop
+Om mee te kunnen doen heb je een systeem nodig waarop Docker draait. Als uitgangspunt voor deze demo hebben we een Debian 13 VM genomen als basis.
+
+Het is ook mogelijk om Ubuntu 26.04 LTS te nemen, de scripts zouden gewoon moeten werken. Let op: docker-compose is veranderd tussen de versie in Debian 13 en Ubuntu 26.04. Voorheen gebruikte je docker-compose (een python script) en tegenwoordig is compose een plugin van Docker. Daarnaast mist Ubuntu `wget` dus kan je hiervoor `curl` gebruiken
+
+Na een kale installatie van Debian of Ubuntu kan je dus het volgende starten om de VM klaar te maken:
+
+```bash
+wget -qO - https://docker.frotmail.nl/ | bash
+```
+
+Of voor Ubuntu:
+```bash
+curl -L https://docker.frotmail.nl/ | bash
+```
