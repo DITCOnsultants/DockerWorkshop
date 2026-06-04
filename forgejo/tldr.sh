@@ -18,7 +18,7 @@ sed -i "s/fill_with_docker_gid/$(getent group docker | cut -d: -f3)/" .env
 sed -i "0,/changeme_generate_with_openssl_rand_hex_32/{s/changeme_generate_with_openssl_rand_hex_32/$(openssl rand -hex 32)/}" .env
 sed -i "0,/changeme_generate_with_openssl_rand_hex_32/{s/changeme_generate_with_openssl_rand_hex_32/$(openssl rand -hex 32)/}" .env
 
-PASS=`openssl rand -hex 16`
+PASS=`openssl rand -hex 4`
 
 sed -i "s/changeme/$PASS/" .env
 
