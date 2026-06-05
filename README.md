@@ -1,5 +1,7 @@
 # Waarom Containers
+
 De problemen die Docker probeert op te lossen zijn:
+
 * **"Hier werkt het"**: Doordat de applicatie overal in dezelfde context draait gedraagd het zich consistenter.
 * **Depencencies**: Als er op 1 systeem door diverse applicaties verschillende versies nodig zijn van een bibliotheek zorgt Docker ervoor dat deze versies onderling elkaar niet bijten.
 * **Efficiency**: Omdat we geen VM's draaien, maar enkel processen in eigen namespaces; hebben we minder resources nodig en is er toch een mate van scheiding tussen de applicaties.
@@ -24,6 +26,7 @@ Nadelen:
 - Kernel is gedeeld
 
 Containers draaien doorgaans op een platform of een zogenaamde container runtime. Dit zijn enkele voorbeelden hiervan:
+
 * **containerd**: De industriestandaard. Het is een minimalistische runtime die als fundament dient voor zowel 
 Docker als Kubernetes.
 * **Podman**: Een "daemonless" alternatief voor Docker. Het biedt vergelijkbare functionaliteit, maar zonder een 
@@ -62,6 +65,7 @@ Dit betekent:
 ---
 
 # Deze workshop
+
 Om mee te kunnen doen heb je een systeem nodig waarop Docker draait. Als uitgangspunt voor deze demo hebben we een Debian 13 VM genomen als basis.
 
 Het is ook mogelijk om Ubuntu 26.04 LTS te nemen, de scripts zouden gewoon moeten werken. Let op: docker-compose is veranderd tussen de versie in Debian 13 en Ubuntu 26.04. Voorheen gebruikte je docker-compose (een python script) en tegenwoordig is compose een plugin van Docker. Daarnaast mist Ubuntu `wget` dus kan je hiervoor `curl` gebruiken
