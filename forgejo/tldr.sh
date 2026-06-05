@@ -37,7 +37,7 @@ else
   docker compose up -d
 fi
 # Change ROOT_URL to actual address
-IPADDR=`hostname -I | awk '{ print $1 }'
+IPADDR=`hostname -I | awk '{ print $1 }'`
 sed -i "s/http:\/\/localhost/http:\/\/$IPADDR/" /opt/docker/forgejo/data/gitea/conf/app.ini
 
 docker restart forgejo
