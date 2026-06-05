@@ -106,6 +106,7 @@ cache:
 
 container:
   network: forgejo-net
+  docker_host: automount
 
 host:
   workdir: /tmp/forgejo-runner
