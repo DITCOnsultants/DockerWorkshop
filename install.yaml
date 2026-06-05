@@ -3,34 +3,41 @@
 - hosts: localhost
   connection: local
 
+  # Let op; het huidige systeem IP adres wordt toegevoegd aan de docker config.
+  # Het doel hiervan is om lokaal te kunnen praten tegen de registry zonder dat
+  # deze SSL ingeschakeld moet hebben.
+
+  # Mocht het adres veranderen kan je dit playbook opnieuw starten:
+  #   ansible-playbook install.yaml
+
   tasks:
-    - name: Upgrade the APT cache and upgrade all packages to the latest version
+    - name: Update APT cache en geinstalleerde software
       ansible.builtin.apt:
         upgrade: dist
-        update_cache: yes
+        update_cache: true
         cache_valid_time: 3600
 
-    - name: "Ensure required packages are installed"
+    - name: Installeer alle benodigde software
       apt:
-        name: "{{ packages }}"      
+        name: "{{ packages }}"
       vars:
         packages:
-        - docker.io
-        - docker-compose
-        - molly-guard
-        - joe
-        - nano
-        - openssh-server
-        - sudo
+          - docker.io
+          - docker-compose
+          - molly-guard
+          - joe
+          - nano
+          - openssh-server
+          - sudo
 
-    - name: Identify username associated with UID 1000
+    - name: Haal username op van het account gemaakt in de OS installatie
       command: "id -nu 1000"
       register: user_discovery
       changed_when: false
       failed_when: user_discovery.rc != 0
       ignore_errors: false
 
-    - name: Add the discovered user to the docker and sudo group
+    - name: Voeg initiele user toe aan groep Docker
       user:
         name: "{{ user_discovery.stdout }}"
         groups:
@@ -39,16 +46,16 @@
         append: true
       register: user_mod
 
-    # - name: "Ensure docker data dir is present"
-    #   file:
-    #     path: /opt/docker
-    #     state: directory
+    - name: Zorg dat /opt/docker bestaat
+      file:
+        path: /opt/docker
+        state: directory
 
-    - name: Retrieve system IP
+    - name: Haal IP adres op
       shell: hostname -I | cut -d ' ' -f 1
       register: system_ip
 
-    - name: "Docker settings"
+    - name: Zet docker configuratie goed
       copy:
         dest: /etc/docker/daemon.json
         content: |
@@ -66,8 +73,9 @@
             ]
           }
       notify: Restart Docker
+
   handlers:
     - name: Restart Docker
       service:
         name: docker
-        state: restarted 
+        state: restarted
