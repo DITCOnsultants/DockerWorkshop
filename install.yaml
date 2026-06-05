@@ -45,16 +45,15 @@
     #     state: directory
 
     - name: Retrieve system IP
-      command: "hostname -I | awk '{ print $1}'"
+      shell: hostname -I | cut -d ' ' -f 1
       register: system_ip
-      changed_when: false
 
     - name: "Docker settings"
       copy:
         dest: /etc/docker/daemon.json
         content: |
           {
-            "insecure-registries": ["{{system_ip.stdout}}:3000"]
+            "insecure-registries": ["{{ system_ip.stdout | trim }}:3000"],
             "log-driver": "json-file",
             "log-opts": {
               "max-size": "10m",
