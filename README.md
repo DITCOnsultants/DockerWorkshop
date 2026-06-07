@@ -1,4 +1,6 @@
-# Waarom Containers
+# Workshop Docker
+
+## Waarom Containers
 
 De problemen die Docker probeert op te lossen zijn:
 
@@ -8,7 +10,7 @@ De problemen die Docker probeert op te lossen zijn:
 
 ---
 
-# Wat is een container?
+## Wat is een container?
 
 Een container is:
 > Een lichtgewicht, geïsoleerde runtime omgeving waarin een applicatie draait.
@@ -38,7 +40,7 @@ Kubernetes, Docker en Docker Swarm zijn tools (orchestrators) die zorgen voor he
 
 ---
 
-# Wat is een Docker Image?
+## Wat is een Docker Image?
 
 Een image is:
 > Een blueprint (template) voor containers, deels vergelijkbaar met een virtuele harddisk.
@@ -51,7 +53,7 @@ Bestaat uit:
 
 ---
 
-# Hoe werkt isolatie?
+## Hoe werkt isolatie?
 
 Docker gebruikt:
 - **Namespaces** → procesisolatie
@@ -64,14 +66,20 @@ Dit betekent:
 
 ---
 
-# Deze workshop
+# Voorbereidingen voor de Workshop
 
+## De VM
 Om mee te kunnen doen heb je een systeem nodig waarop Docker draait. Als uitgangspunt voor deze demo hebben we een Debian 13 VM genomen als basis.
+Er zijn uiteraard veel meer mogelijkheden om Docker te draaien. Maar om optimaal gebruik te maken van de tijd hebben we graag dat iedereen een zelfde ervaring heeft.
+Daarnaast zijn de scripts om zaken voor te bereiden afgestemd op Debian / Ubuntu.
 
 De instructies om een Debian 13 VM te installeren zijn hier te vinden: [Debian Installatie](./Debian%20Installatie/)
 
-Het is ook mogelijk om Ubuntu 26.04 LTS te nemen, de scripts zouden gewoon moeten werken. Let op: docker-compose is veranderd tussen de versie in Debian 13 en Ubuntu 26.04. Voorheen gebruikte je docker-compose (een python script) en tegenwoordig is compose een plugin van Docker. Daarnaast mist Ubuntu `wget` dus kan je hiervoor `curl` gebruiken
+Indien je geen VM wil of kan draaien krijg je van ons een test VM. Voor deze VM is de bovenstaande installatie klaar en ga je verder met het klaarzetten van de workshop bestanden in de volgende stap.
 
+Een eigen VM is natuurlijk handiger als je na de workshop thuis verder wil spelen of op je gemakje dingen opnieuw wil bekijken.
+
+## Workshop files klaarzetten
 Na een kale installatie van Debian of Ubuntu kan je het volgende starten om de VM klaar te maken:
 
 Als root:
@@ -91,4 +99,4 @@ cd /opt/workshop
 ansible-playbook install.yaml
 ```
 
-Daarna gaan we naar de 1e opdracht: my_first_container
+Daarna gaan we naar de 1e opdracht: [my_first_container](./my_first_container/)
