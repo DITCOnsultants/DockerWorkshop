@@ -68,6 +68,8 @@ Dit betekent:
 
 Om mee te kunnen doen heb je een systeem nodig waarop Docker draait. Als uitgangspunt voor deze demo hebben we een Debian 13 VM genomen als basis.
 
+De instructies om een Debian 13 VM te installeren zijn hier te vinden: [Debian Installatie](./Debian%20Installatie/)
+
 Het is ook mogelijk om Ubuntu 26.04 LTS te nemen, de scripts zouden gewoon moeten werken. Let op: docker-compose is veranderd tussen de versie in Debian 13 en Ubuntu 26.04. Voorheen gebruikte je docker-compose (een python script) en tegenwoordig is compose een plugin van Docker. Daarnaast mist Ubuntu `wget` dus kan je hiervoor `curl` gebruiken
 
 Na een kale installatie van Debian of Ubuntu kan je het volgende starten om de VM klaar te maken:
