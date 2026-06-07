@@ -25,4 +25,4 @@ Voor het installeren van Grub moeten we expliciet de disk selecteren
 Tenslotte wordt het systeem herstart (eventueel de installatie ISO even verwijderen?) en kan je inloggen.
 
 # Video
-![Zie ook de MKV om op je gemak te kunnen kijken (mogelijkheid om te pauzeren)](./Debian%2013%20installatie.gifinstallatie.gif)
+![Zie ook de MKV om op je gemak te kunnen kijken (mogelijkheid om te pauzeren)](./Debian%2013%20installatie.gif)
