@@ -1,9 +1,13 @@
 # Eerste stapjes in Docker
 Doel van deze opdracht is om te ervaren:
 * Wat is een container?
-* Waar gebruike je een image voor?
+* Waar gebruik je een image voor?
 * En hoe kan je met veranderende bestanden omgaan (docker volumes).
 
+## nginx
+In deze opdracht gaan we een image gebruiken van [nginx](https://nginx.org/en/). Deze image bevat een applicatie welke veel gebruikt wordt als webserver, reverse proxy, loadbalancer etc. In deze opdracht gebruiken we puur het webserver deel om visueel te maken wat er gebeurt met bestanden die we veranderen.
+
+## Wat is een container?
 1. **Start een container:**
    ```bash
    docker run --name test01 --rm -p 8889:80 nginx
@@ -35,31 +39,44 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
 | **`test01`** | De naam van de container |
 | **`bash`** | Het programma dat we willen starten in de container |
 
-4. **Pas de inhoud aan:**  
+## File mutaties
+1. **Pas de inhoud aan:**  
    Overschrijf de index.html met eigen tekst:
    ```bash
    echo "vier-nul-vier" > /usr/share/nginx/html/index.html
    ```
 
-5. **Controleer het resultaat:**  
+2. **Controleer het resultaat:**  
    Wat krijg je te zien als je de pagina in je browser ververst?
 
-6. **Stop de container:**  
-   Druk op `CTRL-C` in het terminalvenster waarin je container is gestart.
+   Als het goed is zien we nu de inhoud van het aangepaste bestand
 
-7. **Start opnieuw & vergelijk:**  
-   Start de container opnieuw. Wat krijg je nu te zien als je de pagina ververst?
+3. **Stop de container:**  
+   Druk op `CTRL-C` in het originele terminalvenster waarin je container is gestart. De logging zal nu stoppen en je krijgt je prompt terug.
 
-8. **Stop en verwijder de container**
+4. **Start opnieuw & vergelijk:**  
+   Start de container opnieuw. Het vorige commando is op te roepen met het pijltje omhoog gevolgd door 'Enter'.Wat krijg je nu te zien als je de pagina in je browser ververst?
+
+   Bestanden die in een bestaande image worden vervangen, zullen tijdelijk een extra layer krijgen. Deze is echter alleen gekoppeld aan de container en indien je geen bijzondere maatregelen treft zal je al deze gewijzigde data verliezen.
+
+5. **Stop en verwijder de container**
+   Vanuit een ander terminalvenster:
    ```bash
    docker kill test01
-   docker rm test01
    ```
-8. **Start een container met het volgende commando:**
+
+   Of CTRL-C vanuit het venster waarin Docker gestart was...
+
+   Omdat de container origineel is gestart met de parameter `--rm` zal deze automatisch worden opgeruimd nadat deze stopt.
+
+6. **Start een container met het volgende commando:**
    ```bash
    docker run --name test02 --rm -p 8889:80 -v /opt/workshop/my_first_container/index.html:/usr/share/nginx/html/index.html nginx
    ```
-9. **Pas de index.html aan**
+
+   De optie `-v` koppelt een map op de disk van de VM, aan een map in de draaiende container.
+
+7. **Pas de index.html aan**
    ```bash
    cd /opt/workshop/my_first_container
    echo "Bye!" > index.html
@@ -69,3 +86,8 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
    ```bash
    git restore index.html
    ```
+
+# Conclusie
+* Een bestand in het image kan gewoon worden aangepast en binnen de draaiende container zal deze mutatie worden bewaard tot de container zelf wordt opgeruimd.
+* Met een `-v` ofwel bind-mount kan een map op de VM worden gekoppeld aan een map in een draaiende container. Op deze manier houden we deze opslag 'persistent'.
+* Er zijn ook named volumes. Deze hebben andere voordelen maar zijn voor deze oefening even buiten scope.
