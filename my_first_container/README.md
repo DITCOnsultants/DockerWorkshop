@@ -65,7 +65,7 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
    docker kill test01
    ```
 
-   Of CTRL-C vanuit het venster waarin Docker gestart was...
+   Of `CTRL-C` vanuit het venster waarin Docker gestart was...
 
    Omdat de container origineel is gestart met de parameter `--rm` zal deze automatisch worden opgeruimd nadat deze stopt.
 
@@ -91,3 +91,44 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
 * Een bestand in het image kan gewoon worden aangepast en binnen de draaiende container zal deze mutatie worden bewaard tot de container zelf wordt opgeruimd.
 * Met een `-v` ofwel bind-mount kan een map op de VM worden gekoppeld aan een map in een draaiende container. Op deze manier houden we deze opslag 'persistent'.
 * Er zijn ook named volumes. Deze hebben andere voordelen maar zijn voor deze oefening even buiten scope.
+
+# Verdieping
+## Proces isolatie
+* 1. Start een container met nginx:
+```bash
+docker run --name test03 --rm -p 8889:80 nginx
+```
+
+* 2. Start in een andere terminal een bash shell in de draaiende container:
+```bash
+docker exec -ti test03 bash
+```
+
+* 3. Roep in die container de lijst op van draaiende processen:
+```bash
+ls -l /proc/*/exe
+```
+Normaal zou je wellicht het commando `ps` gebruiken, deze is echter niet aanwezig in deze container image.
+
+De lijst met processen is als het goed is erg kort...
+
+* 4. Voer vervolgens buiten de container het volgende commando uit:
+```bash
+ls -l /proc/*/exe
+```
+
+Deze lijst zou een *stuk* langer moeten zijn. Hierin is uiteindelijk ook het nginx proces te vinden welke ook draaide in de container.
+
+## Conclusie
+Vanuit de `host` zijn alle processen zichtbaar. Vanuit een container alleen processen in dezelfde namespace. Hiervoor zorgt de containerd runtime.
+
+Mocht je nu op de `host` een process tegenkomen waarvan je wil weten bij welke container deze hoort kan je hiervoor de volgende truuk gebruiken:
+
+```bash
+nsenter -t [process id] -a hostname
+```
+Dit commando zal de namespace binnengaan horende bij het process id. Vervolgens binnen deze namespace zal hij het commando hostname uitvoeren. Dit geeft de hostname terug van de container. Deze is vervolgens verder te inspecteren met:
+```bash
+docker inspect [hostname]
+```
+![Process isolatie](./proc%20isolation.png)
