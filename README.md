@@ -16,12 +16,15 @@ Een container is:
 > Een lichtgewicht, geïsoleerde runtime omgeving waarin een applicatie draait.
 
 Vergelijk:
-- VM = volledige OS
+- VM = volledige OS, drivers, etc.
 - Container = deelt kernel, alleen applicatie + dependencies
 
+![VM's versus LXC versus Containers](./VM%20vs%20LXC%20vs%20Containers.svg)
 Voordelen:
 - Sneller starten (ms/seconden)
 - Minder resources nodig
+- Host OS blijft 'schoon' en vervangbaar
+- Ondersteund het IaC principe
 
 Nadelen:
 - Vergeleken met een VM: isolatie is minder/niet aanwezig

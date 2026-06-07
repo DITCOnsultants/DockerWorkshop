@@ -1,10 +1,10 @@
-Doel:
-- Wat is een container
-- Wat is een image
-- Waar gebruik je volumes voor
+# Eerste stapjes in Docker
+Doel van deze opdracht is om te ervaren:
+* Wat is een container?
+* Waar gebruike je een image voor?
+* En hoe kan je met veranderende bestanden omgaan (docker volumes).
 
-
-1. **Start de container:**
+1. **Start een container:**
    ```bash
    docker run --name test01 --rm -p 8889:80 nginx
    ```
@@ -17,8 +17,11 @@ Doel:
 | **`-p 8889:80`** | Poort routering; poort 8889 van de host wordt gekoppeld aan poort 80 van de container |
 | **`nginx`** | De naam van de image voor onze container. Als deze niet bestaat zal hij automatisch worden gezocht op docker hub tenzij in de image een andere url is verwerkt. |
 
+Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op de achtergrond gestart. De uitvoer van processen in de container worden daardoor getoond en je krijg niet meteen je prompt terug.
+
 2. **Bezoek de website:**  
    Open een webbrowser en ga naar je VM op poort `8889`.
+   Als je naar het venster kijkt waarop de container is gestart zou je daar de logging terug moeten zien.
 
 3. **Log in op de container:**  
    Open een nieuwe console en open een shell in de draaiende container:
