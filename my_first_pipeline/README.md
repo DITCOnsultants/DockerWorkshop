@@ -180,13 +180,13 @@ We gebruiken in deze steps diverse externe bibliotheken. Forgejo zal deze automa
 * [docker/build-push-action](https://code.forgejo.org/docker/build-push-action/)
 
 ```yaml
-      - uses: docker/login-action@v4
+      - uses: docker/login-action@v4  # We moeten inloggen om een docker image naar Forgejo te kunnen uploaden
         name: Docker login
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
           registry: ${{ vars.DOCKER_REGISTRY }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4  # Zonder de checkout stap, hebben we nog geen toegang tot de code van de huidige repo
 ```
 
 Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de main/master branch zitten, publiceren we enkel een test image.
