@@ -159,6 +159,19 @@ eric@testlab:/opt/workshop/my_first_image$ docker-compose up -d imagetest01
  ✔ Container imagetest01           Started                                                                       0.1s 
 ```
 
+---
+
+Bekijk met
+```bash
+docker ps -a
+```
+Of er nog containers aangemaakt zijn. Indien gewenst kan je deze nu verwijderen met desgewenst `docker-compose down`  of `docker kill [naam]` gevolgd door `docker rm [naam]`.
+
+*Let op:* docker-compose commando's worden enkel gesnapt als je in de map zit waarin de yml staat :)
+
+Hieronder is nog wat verdieping te vinden. Wij gaan nu verder bij opdracht 3: [De piplines](../my_first_pipeline/)
+
+---
 # Verdieping
 
 ## Volgorde en efficiency
