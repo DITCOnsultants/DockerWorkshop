@@ -79,6 +79,8 @@ docker run -d --name imagetest01 --rm -p 8889:80 testimage01
 ### 3. Controleer of de nieuwe image in gebruik is
 Als je nu de browser laat verversen zou je de nieuwe content moeten zien...
 
+---
+
 ## Omslachtig
 Zoals je ziet is het beheren van docker containers best een dingetje.
 Als je complexere containers draait waarin je bij het maken mee moet geven:
@@ -92,6 +94,9 @@ Als je complexere containers draait waarin je bij het maken mee moet geven:
 
 Dan is het 'even' updaten niet leuk meer.
 
+---
+
+## docker-compose
 Om dit allemaal een stuk gemakkelijker te maken hebben we de beschikking over docker-compose.
 
 ```docker-compose
@@ -115,6 +120,8 @@ En wanneer we de file hebben aangepast, of er is een nieuwe image beschikbaar. K
 docker-compose up -d
 ```
 (Indien we de bijgewerkte image nog niet lokaal hebben dienen we eerst `docker-compose pull` te draaien)
+
+In een docker-compose.yml is het mogelijk om meerdere containers te beschrijven, relaties hiertussen vast te leggen en om dynamisch containers aan elkaar te knopen. Een voorbeeld hiervan is te vinden in de LVT map.
 
 # Verdieping
 
