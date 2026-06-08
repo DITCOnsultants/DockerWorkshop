@@ -4,8 +4,12 @@ Doel van deze opdracht is om te ervaren:
 * Waar gebruik je een image voor?
 * En hoe kan je met veranderende bestanden omgaan (docker volumes).
 
+---
+
 ## nginx
 In deze opdracht gaan we een image gebruiken van [nginx](https://nginx.org/en/). Deze image bevat een applicatie welke veel gebruikt wordt als webserver, reverse proxy, loadbalancer etc. In deze opdracht gebruiken we puur het webserver deel om visueel te maken wat er gebeurt met bestanden die we veranderen.
+
+---
 
 ## Wat is een container?
 1. **Start een container:**
@@ -38,6 +42,8 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
 | **`-ti`** | Nodig om interactief op de tty te verbinden |
 | **`test01`** | De naam van de container |
 | **`bash`** | Het programma dat we willen starten in de container |
+
+---
 
 ## File mutaties
 1. **Pas de inhoud aan:**  
@@ -86,11 +92,14 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
    ```bash
    git restore index.html
    ```
+---
 
 # Conclusie
 * Een bestand in het image kan gewoon worden aangepast en binnen de draaiende container zal deze mutatie worden bewaard tot de container zelf wordt opgeruimd.
 * Met een `-v` ofwel bind-mount kan een map op de VM worden gekoppeld aan een map in een draaiende container. Op deze manier houden we deze opslag 'persistent'.
 * Er zijn ook named volumes. Deze hebben andere voordelen maar zijn voor deze oefening even buiten scope.
+
+---
 
 # Verdieping
 ## Proces isolatie
@@ -118,6 +127,8 @@ ls -l /proc/*/exe
 ```
 
 Deze lijst zou een *stuk* langer moeten zijn. Hierin is uiteindelijk ook het nginx proces te vinden welke ook draaide in de container.
+
+---
 
 ## Conclusie
 Vanuit de `host` zijn alle processen zichtbaar. Vanuit een container alleen processen in dezelfde namespace. Hiervoor zorgt de containerd runtime.

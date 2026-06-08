@@ -1,5 +1,6 @@
 # Workshop Docker
 
+
 ## Waarom Containers
 
 De problemen die Docker probeert op te lossen zijn:
@@ -54,6 +55,10 @@ Bestaat uit:
 - Dependencies
 - Applicatie code
 
+Docker images worden doorgaans bewaard in container registries. De meest bekende is [Docker Hub](https://hub.docker.com/). Hier zijn zowel zelfgemaakte als officiele images te vinden van van alles en nog wat.
+
+Het is ook mogelijk om een private registry te hosten. Later in de workshop gaan we gebruik maken van Forgejo, een CI/CD tool met Git en package repositories.
+
 ---
 
 ## Hoe werkt isolatie?
@@ -81,6 +86,8 @@ De instructies om een Debian 13 VM te installeren zijn hier te vinden: [Debian I
 Indien je geen VM wil of kan draaien krijg je van ons een test VM. Voor deze VM is de bovenstaande installatie klaar en ga je verder met het klaarzetten van de workshop bestanden in de volgende stap.
 
 Een eigen VM is natuurlijk handiger als je na de workshop thuis verder wil spelen of op je gemakje dingen opnieuw wil bekijken.
+
+---
 
 ## Workshop files klaarzetten
 Na een kale installatie van Debian of Ubuntu kan je het volgende starten om de VM klaar te maken:
