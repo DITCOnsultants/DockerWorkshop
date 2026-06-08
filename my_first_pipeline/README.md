@@ -107,7 +107,7 @@ Nadat je die 2e file gemaakt hebt zal Forgejo automatisch de Actions gaan starte
 ---
 
 ### Container maken
-Door gebruik te maken van de `docker-compose.yml` in deze map kan je een container maken op basis van de zojuist gemaakte image. Pas voor je de container maakt wel even de image naam aan. De placeholder `mijnip` moet je even vervangen met het IP van je VM zodat de image kan worden gevonden.
+Door gebruik te maken van de `docker-compose.yml` in deze map kan je een container maken op basis van de zojuist gemaakte image. Pas voor je de container maakt, wel even de image naam aan. De placeholder `mijnip` moet je even vervangen met het IP van je VM zodat de image kan worden gevonden.
 
 ```bash
 eric@testlab:/opt/workshop/my_first_pipeline$ docker-compose up -d
