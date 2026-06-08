@@ -204,5 +204,11 @@ Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de m
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:${{ env.image_tag}}
+```
+
+Het is ook mogelijk om meerdere tags op te geven, hier zetten we bijvoorbeeld ook de `latest` tag.
+```yaml
+          tags: 
+            - ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:${{ env.image_tag}}
+            - ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:latest
 ```
