@@ -1,0 +1,12 @@
+---
+services:
+  vscode:
+    image: mijnip:3000/forgejo-admin/dockertestimage:v1
+    container_name: vscode
+    ports:
+      - 8443:8443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/docker/vscode:/config
+      - /opt/workshop:/config/workspace
+    restart: always

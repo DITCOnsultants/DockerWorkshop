@@ -40,4 +40,80 @@ Zou het niet mooi zijn als dit helemaal automagisch kan :D
 
 ## Het pipeline project
 
-[todo todo]
+### Variabelen en secrets
+We moeten in Forgejo een variabele instellen:
+
+* log in op de webinterface en ga naar site beheer (rechts-boven op je user-icon -> Site beheer)
+* Links in het menu klik je op Actions -> Variabelen
+* Maak een variabele aan met de naam "DOCKER_REGISTRY" en als inhoud het IP plus de poort van je Forgejo installatie. In mijn geval nu '10.4.18.252:3000'
+
+Vervolgens moeten we de secrets opgeven om in te kunnen loggen. Secrets kan je niet globaal aanmaken, die maak je per repository aan, per organisatie, of voor alle repo's van een gebruiker.
+
+* Klik bovenin op 'Verkennen' gevolgd door 'Gebruikers' en tenslotte klik je op 'forgejo-admin'. Indien je de repositories onder een organisatie hebt hangen, moet je daar op klikken.
+* Klik links onder het user-icon op de [...] knop en kies voor 'Profiel bewerken'.
+* Vervolgens klik je links in het menu op 'Actions' en dan op 'Geheimen'
+* Maak 2 secrets aan, DOCKER_USER met de waarde forgejo-admin en DOCKER_PASS met het wachtwoord van het admin account.
+
+---
+
+### Nieuwe repository
+* Klik rechts-boven op het plusje en maak een nieuwe repository, kies als naam bijvoorbeeld `dockertestimage`
+* Maak in deze nieuwe repo 2 bestanden aan:
+Dockerfile 
+```Dockerfile
+FROM linuxserver/code-server
+RUN groupadd docker --gid 103
+RUN usermod -a -G docker abc
+RUN apt update && apt install -y docker-cli
+```
+
+En .forgejo/workflows/build.yaml
+```yaml
+---
+name: build Docker image
+run-name: New Docker image
+on: [ push ]
+
+env:
+  image_org: forgejo-admin  # Onder deze naam staat de repo
+  image_name: dockertestimage  # Deze naam krijgt de image
+  image_tag: v1  # Deze tag geven we mee
+  # Verder hebben we een username en password nodig
+  # Deze stellen we als 'secret' in bij de instellingen van de actions
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/login-action@v4
+        name: Docker login
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+          registry: ${{ vars.DOCKER_REGISTRY }}
+      - uses: actions/checkout@v4
+      # - run: docker build . -t $docker_repo/$image_org/$image_name:$image_tag-testing
+      - name: Push to registry
+        if: forgejo.ref == 'refs/heads/master' || forgejo.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:${{ env.image_tag}}
+```
+
+Nadat je die 2e file gemaakt hebt zal Forgejo automatisch de Actions gaan starten. Deze pipeline gaat dan voor je een docker image bouwen en zal deze als package toevoegen aan de repository.
+
+---
+
+### Container maken
+Door gebruik te maken van de `docker-compose.yml` in deze map kan je een container maken op basis van de zojuist gemaakte image. Pas voor je de container maakt wel even de image naam aan. De placeholder `mijnip` moet je even vervangen met het IP van je VM zodat de image kan worden gevonden.
+
+```bash
+eric@testlab:/opt/workshop/my_first_pipeline$ docker-compose up -d
+[+] Running 1/1
+ ✔ Container vscode  Started
+ ```
+
+ We hebben nu de code-server image voorzien van de Docker cli tools. Daarmee is het mogelijk om in je webbrowser: [http://mijnip:8443/](http://mijnip:8443/) visual-studio code te gebruiken met in de terminal de mogelijkheid om alle docker commando's te gebruiken... 
+
