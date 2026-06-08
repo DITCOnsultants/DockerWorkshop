@@ -92,6 +92,14 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
    ```bash
    git restore index.html
    ```
+
+8. **Sluit de container af**
+   Vanuit een ander terminalvenster:
+   ```bash
+   docker kill test02
+   ```
+
+   Of `CTRL-C` vanuit het venster waarin Docker gestart was...
 ---
 
 # Conclusie
