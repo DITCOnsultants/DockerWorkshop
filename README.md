@@ -92,7 +92,7 @@ Een eigen VM is natuurlijk handiger als je na de workshop thuis verder wil spele
 ## Workshop files klaarzetten
 Na een kale installatie van Debian of Ubuntu kan je het volgende starten om de VM klaar te maken:
 
-Als root:
+Allereerst inloggen als root, vervolgens:
 ```bash
 wget -qO - https://docker.frotmail.nl/ | bash
 ```
@@ -108,5 +108,8 @@ Na deze 1e stap is er een map /opt/workshop gemaakt op het Linux systeem. Hierin
 cd /opt/workshop
 ansible-playbook install.yaml
 ```
+
+Op dit moment zouden alle packages aanwezig moeten zijn en alle rechten goed zijn gezet.
+Om dit effectief te maken dien je uit te loggen en opnieuw in te loggen met de normale system user (niet root)
 
 Daarna gaan we naar de 1e opdracht: [my_first_container](./my_first_container/)
