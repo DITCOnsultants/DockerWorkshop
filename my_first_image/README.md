@@ -90,7 +90,7 @@ Nu de nieuwe image is gemaakt wordt deze nog nergens gebruikt. De draaiende cont
 Stop de container... Verwijder de container...
 ```bash
 docker stop imagetest01
-docker rm imagetest01
+# docker rm imagetest01  # Er was al --rm meegegeven dus dit is niet nodig
 ```
 En start een nieuwe...
 ```bash
@@ -99,6 +99,12 @@ docker run -d --name imagetest01 --rm -p 8889:80 testimage01
 
 ### 3. Controleer of de nieuwe image in gebruik is
 Als je nu de browser laat verversen zou je de nieuwe content moeten zien...
+
+Sluit de container weer af.
+
+```bash
+docker kill imagetest01
+```
 
 ---
 
