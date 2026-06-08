@@ -72,7 +72,10 @@ En .forgejo/workflows/build.yaml
 ---
 name: build Docker image
 run-name: New Docker image
-on: [ push ]
+on:
+  push:
+  schedule:
+    - cron: '0 0 8 * *'
 
 env:
   image_org: forgejo-admin  # Onder deze naam staat de repo
@@ -101,8 +104,11 @@ jobs:
           push: true
           tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:${{ env.image_tag}}
 ```
+[TODO: Nu bouwt hij alleen een image voor main/master, bij een andere branch zou hij tenminste moeten bouwen, eventueel push naar test tag?]
 
 Nadat je die 2e file gemaakt hebt zal Forgejo automatisch de Actions gaan starten. Deze pipeline gaat dan voor je een docker image bouwen en zal deze als package toevoegen aan de repository.
+
+Bij iedere nieuwe push naar deze repo zal hij een nieuwe image bouwen. Als de push in main/master zit; zal hij ook een nieuwe image in de registry plaatsen. Daarnaast zal hij iedere maand op de 8e een nieuwe build proberen. Dit doen we om upstream updates tenminste 1x per maand binnen te halen.
 
 ---
 
