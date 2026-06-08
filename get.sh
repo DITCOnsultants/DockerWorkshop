@@ -48,4 +48,4 @@ su - "$TARGET_USER" << EOF
 EOF
 
 echo "Klaar, als er geen fouten zijn opgetreden kan je verder gaan met de volgende stap:"
-echo "Vanuit de map $TARGET_DIR: ansible-playbook install.yaml"
+echo " ansible-playbook $TARGET_DIR/install.yaml"
