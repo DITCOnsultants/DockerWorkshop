@@ -96,7 +96,7 @@ jobs:
           registry: ${{ vars.DOCKER_REGISTRY }}
       - uses: actions/checkout@v4
       - name: Test build
-        if: forgejo.ref != 'refs/heads/master' && forgejo.red != 'refs/heads/main'
+        if: forgejo.ref != 'refs/heads/master' && forgejo.ref != 'refs/heads/main'
         uses: docker/build-push-action@v7
         with:
           context: .
