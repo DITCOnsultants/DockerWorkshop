@@ -1,0 +1,7 @@
+---
+services:
+  imagetest01:
+    container_name: imagetest01
+    image: testimage01
+    ports:
+      - 8889:80

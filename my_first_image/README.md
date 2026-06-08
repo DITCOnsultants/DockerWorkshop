@@ -120,16 +120,17 @@ Dan is het 'even' updaten niet leuk meer.
 Om dit allemaal een stuk gemakkelijker te maken hebben we de beschikking over docker-compose.
 
 ```docker-compose
+---
 services:
   imagetest01:
-    name: imagetest01
+    container_name: imagetest01
     image: testimage01
     ports:
       - 8889:80
 ```
 Dit is een voorbeeld van een `docker-compose.yml` en zo kunnen we de informatie die we nodig hebben om een container te starten gemakkelijk opslaan in code.
 
-Het starten van de container gaat dan als volgt:
+Het starten van de containers gaat dan als volgt:
 
 ```bash
 docker-compose up -d
@@ -139,9 +140,24 @@ En wanneer we de file hebben aangepast, of er is een nieuwe image beschikbaar. K
 ```bash
 docker-compose up -d
 ```
+
 (Indien we de bijgewerkte image nog niet lokaal hebben dienen we eerst `docker-compose pull` te draaien)
 
 In een docker-compose.yml is het mogelijk om meerdere containers te beschrijven, relaties hiertussen vast te leggen en om dynamisch containers aan elkaar te knopen. Een voorbeeld hiervan is te vinden in de LVT map.
+
+```bash
+docker-compose down
+```
+Dit zal vervolgens alle containers uit `docker-compose.yml` afsluiten en verwijderen.
+
+Het is tenslotte ook mogelijk om met docker-compose een enkele container aan te sturen uit een grotere `docker-compose.yml`. Daarvoor geef je simpelweg de naam van de container mee:
+
+```bash
+eric@testlab:/opt/workshop/my_first_image$ docker-compose up -d imagetest01
+[+] Running 2/2
+ ✔ Network my_first_image_default  Created                                                                       0.2s 
+ ✔ Container imagetest01           Started                                                                       0.1s 
+```
 
 # Verdieping
 
