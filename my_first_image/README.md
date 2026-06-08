@@ -40,9 +40,29 @@ docker run -d --name imagetest01 --rm -p 8889:80 testimage01
 Bezoek vervolgens vanuit je browser de nieuwe webserver op http://[vm-ip]:8889 en nu zou je gegroet moeten worden met een 'Hello World' pagina. De default pagina van de nginx image is nu permanent overschreven met onze eigen index.html.
 
 ---
-## Tags
+## Tags / De naam van een image
 
-[todo todo]
+De naam van een image kan bestaan uit meerdere componenten:
+```docker
+privatehub.mycompany.local/project_x/application_server:testing
+```
+
+| Component | Vereist | Doel |
+| :--- | :--- | :--- |
+| **`privatehub.mycompany.local`** | Optioneel | URL van de registry, indien niet opgegeven wordt automatisch hub.docker.com gebruikt |
+| **`project_x`** | Optioneel | Binnen een registry kan een boomstructuur aan mappen bestaan, afhankelijk van de software gebruikt |
+| **`application_server`** | Vereist | naam van de image |
+| **`testing`** | Optioneel | Tag van de image, indien niet opgegeven zal dit altijd `latest` zijn | 
+
+Eerder hebben we `nginx` als image gebruikt. Deze had geen URL en is dus bij hub.docker.com gedownload. De tag was niet gespecificeerd en dus is `latest` hiervoor gebruikt.
+
+```bash
+eric@testlab:~$ docker image ls
+REPOSITORY                        TAG       IMAGE ID       CREATED             SIZE
+nginx                             latest    7aaca76c508f   2 weeks ago         161MB
+python                            3-slim    69951c9faec3   2 weeks ago         119MB
+testimage01                       latest    81460f6ed531   About an hour ago   161MB
+```
 
 ---
 
