@@ -30,8 +30,14 @@ In dit geval nemen we de nginx image uit de vorige opdracht en kopieren de index
 
 ---
 
+## Start je image
 
+We gaan nu een container start op basis van de image die we net gemaakt hebben:
+```bash
+docker run --name imagetest01 --rm -p 8889:80 testimage01
+```
 
+Bezoek vervolgens vanuit je browser de nieuwe webserver op http://[vm-ip]:8889 en nu zou je gegroet moeten worden met een 'Hello World' pagina. De default pagina van de nginx image is nu permanent overschreven met onze eigen index.html.
 
 ---
 
