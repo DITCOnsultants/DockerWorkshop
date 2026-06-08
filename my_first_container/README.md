@@ -101,6 +101,10 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
 
 ---
 
+Mocht je de proces isolatie niet willen missen kan je hieronder de verdieping terug vinden, anders gaan we door naar de 2e opdracht: [De container images](../my_first_image/)
+
+---
+
 # Verdieping
 ## Proces isolatie
 * 1. Start een container met nginx:
