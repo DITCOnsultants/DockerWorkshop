@@ -169,7 +169,7 @@ Of er nog containers aangemaakt zijn. Indien gewenst kan je deze nu verwijderen 
 
 *Let op:* docker-compose commando's worden enkel gesnapt als je in de map zit waarin de yml staat :)
 
-Hieronder is nog wat verdieping te vinden. Wij gaan nu verder bij opdracht 3: [De piplines](../my_first_pipeline/)
+Hieronder is nog wat verdieping te vinden. Wij gaan nu verder bij opdracht 3: [De pipelines](../my_first_pipeline/)
 
 ---
 # Verdieping
