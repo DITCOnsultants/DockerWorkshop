@@ -34,12 +34,87 @@ In dit geval nemen we de nginx image uit de vorige opdracht en kopieren de index
 
 We gaan nu een container start op basis van de image die we net gemaakt hebben:
 ```bash
-docker run --name imagetest01 --rm -p 8889:80 testimage01
+docker run -d --name imagetest01 --rm -p 8889:80 testimage01
 ```
 
 Bezoek vervolgens vanuit je browser de nieuwe webserver op http://[vm-ip]:8889 en nu zou je gegroet moeten worden met een 'Hello World' pagina. De default pagina van de nginx image is nu permanent overschreven met onze eigen index.html.
 
 ---
+## Tags
+
+[todo todo]
+
+---
+
+## Updates en aanpassingen
+
+Een traditionele server of VM zou je dagelijks/wekelijks/'maandelijks' moeten voorzien van de laatste security updates. Een docker image is immutable. Een update installeren is dus niet handig gezien het tijdelijke karakter van een container.
+
+In plaats daarvan zal de maintainer van een officiele docker image, voor iedere update/patch een nieuwe image publiceren. Kleine patches/updates vinden vaak plaats onder dezelfde `tag` zodat deze naadloos kunnen worden herstart naar de nieuwe versies. Voor major releases moet je soms de tag aanpassen.
+
+---
+
+## Update werkwijze
+Zie hier een voorbeeld...
+
+### 1. Image bijwerken
+Pas de index.html aan (Hello updated world?) en maak een nieuwe image:
+```bash
+docker build . -t testimage01
+```
+
+Nu de nieuwe image is gemaakt wordt deze nog nergens gebruikt. De draaiende container zal nog gewoon 'Hello World' laten zien.
+
+### 2. Vervang de container
+Stop de container... Verwijder de container...
+```bash
+docker stop imagetest01
+docker rm imagetest01
+```
+En start een nieuwe...
+```bash
+docker run -d --name imagetest01 --rm -p 8889:80 testimage01
+```
+
+### 3. Controleer of de nieuwe image in gebruik is
+Als je nu de browser laat verversen zou je de nieuwe content moeten zien...
+
+## Omslachtig
+Zoals je ziet is het beheren van docker containers best een dingetje.
+Als je complexere containers draait waarin je bij het maken mee moet geven:
+* Een lijst van poorten
+* Labels
+* Environment vars
+* Naam van de container
+* Aangepast netwerk
+* Volumes om te mounten
+* ...
+
+Dan is het 'even' updaten niet leuk meer.
+
+Om dit allemaal een stuk gemakkelijker te maken hebben we de beschikking over docker-compose.
+
+```docker-compose
+services:
+  imagetest01:
+    name: imagetest01
+    image: testimage01
+    ports:
+      - 8889:80
+```
+Dit is een voorbeeld van een `docker-compose.yml` en zo kunnen we de informatie die we nodig hebben om een container te starten gemakkelijk opslaan in code.
+
+Het starten van de container gaat dan als volgt:
+
+```bash
+docker-compose up -d
+```
+En wanneer we de file hebben aangepast, of er is een nieuwe image beschikbaar. Kunnen we deze mutatie activeren met:
+
+```bash
+docker-compose up -d
+```
+(Indien we de bijgewerkte image nog niet lokaal hebben dienen we eerst `docker-compose pull` te draaien)
 
 # Verdieping
 
