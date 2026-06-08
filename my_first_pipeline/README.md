@@ -117,3 +117,4 @@ eric@testlab:/opt/workshop/my_first_pipeline$ docker-compose up -d
 
  We hebben nu de code-server image voorzien van de Docker cli tools. Daarmee is het mogelijk om in je webbrowser: [http://mijnip:8443/](http://mijnip:8443/) visual-studio code te gebruiken met in de terminal de mogelijkheid om alle docker commando's te gebruiken... 
 
+![VScode](./vscode%20container.png)
