@@ -61,7 +61,7 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
    Druk op `CTRL-C` in het originele terminalvenster waarin je container is gestart. De logging zal nu stoppen en je krijgt je prompt terug.
 
 4. **Start opnieuw & vergelijk:**  
-   Start de container opnieuw. Het vorige commando is op te roepen met het pijltje omhoog gevolgd door 'Enter'.Wat krijg je nu te zien als je de pagina in je browser ververst?
+   Start de container opnieuw. Het vorige commando is op te roepen met het pijltje omhoog gevolgd door 'Enter'. Wat krijg je nu te zien als je de pagina in je browser ververst?
 
    Bestanden die in een bestaande image worden vervangen, zullen tijdelijk een extra layer krijgen. Deze is echter alleen gekoppeld aan de container en indien je geen bijzondere maatregelen treft zal je al deze gewijzigde data verliezen.
 
@@ -92,6 +92,8 @@ Omdat we docker gestart hebben *zonder* de optie `-d` wordt het commando niet op
    ```bash
    git restore index.html
    ```
+
+   Is dit volgens verwachting???
 
 8. **Sluit de container af**
    Vanuit een ander terminalvenster:

@@ -7,6 +7,7 @@ Doel:
 
 ## Maak een eigen image:
 ```bash
+cd /opt/workshop/my_first_image 
 docker build . -t testimage01
 ```
 
