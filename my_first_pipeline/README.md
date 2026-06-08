@@ -128,3 +128,81 @@ eric@testlab:/opt/workshop/my_first_pipeline$ docker-compose up -d
  We hebben nu de code-server image voorzien van de Docker cli tools. Daarmee is het mogelijk om in je webbrowser: [http://mijnip:8443/](http://mijnip:8443/) visual-studio code te gebruiken met in de terminal de mogelijkheid om alle docker commando's te gebruiken... 
 
 ![VScode](./vscode%20container.png)
+
+---
+
+## Pipeline syntax
+Forgejo, Gitea en Github gebruiken allemaal dezelfde `Actions` syntax. Hiervoor maak je een submap in je repository genaamd: '.github', '.gitea' of '.forgejo' (afhankelijk van het gekozen product) met daarin een map 'workflows'.
+
+YAML bestanden in deze workflows map worden geinterpreteerd als pipeline beschrijvingen.
+
+Hier breken we de eerder genoemde YAML nog eens op om te beschrijven wat het allemaal doet.
+
+In dit deel wordt de naam en run-name ingesteld. Dit is zichtbaar in het 'Actions' gedeelde nadat de pipeline heeft gedraait.
+```yaml
+name: build Docker image
+run-name: New Docker image
+```
+
+In dit deel wordt bepaald *wanneer* de pipeline moet starten. Zie hiervoor ook: [de documentatie](https://forgejo.org/docs/latest/user/actions/reference/#on)
+```yaml
+on:
+  push:
+  schedule:
+    - cron: '0 0 8 * *'
+```
+
+Vervolgens zetten we een aantal variabelen in de 'environment' zodat we deze later kunnen hergebruiken.
+```yaml
+env:
+  image_org: forgejo-admin  # Onder deze naam staat de repo
+  image_name: dockertestimage  # Deze naam krijgt de image
+  image_tag: v1  # Deze tag geven we mee
+  # Verder hebben we een username en password nodig
+  # Deze stellen we als 'secret' in bij de instellingen van de actions
+```
+
+Een pipeline bevat altijd 1 of meerdere jobs. Binnen een job kan je meerdere taken (steps) uitvoeren, je kan ook meerdere jobs beschrijven die ieder 1 of meerdere taken bevatten.
+
+*Let op:* Iedere job krijgt zijn eigen container. Meerder steps worden achter elkaar uitgevoerd maar jobs kunnen ook parallel lopen. In een productie omgeving met meerdere runners kunnen jobs ook op verschillende systemen tegelijk draaien.
+
+```yaml
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest  # Dit is een label, zie RUNNER_LABELS in de .env van Forgejo
+    # container: dockerimagename/here:latest  # Het is ook mogelijk expliciet een container image op te geven
+    steps:
+```
+
+We gebruiken in deze steps diverse externe bibliotheken. Forgejo zal deze automatisch ophalen van github of de forgejo repo's.
+* [docker/login-action](https://code.forgejo.org/docker/login-action/)
+* [actions/checkout](https://code.forgejo.org/actions/checkout/)
+* [docker/build-push-action](https://code.forgejo.org/docker/build-push-action/)
+
+```yaml
+      - uses: docker/login-action@v4
+        name: Docker login
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+          registry: ${{ vars.DOCKER_REGISTRY }}
+      - uses: actions/checkout@v4
+```
+
+Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de main/master branch zitten, publiceren we enkel een test image.
+```yaml
+      - name: Test build
+        if: forgejo.ref != 'refs/heads/master' && forgejo.ref != 'refs/heads/main'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:testing-${{ env.FORGEJO_REF_NAME}}
+      - name: Prod build
+        if: forgejo.ref == 'refs/heads/master' || forgejo.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:${{ env.image_tag}}
+```
