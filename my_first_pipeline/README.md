@@ -102,14 +102,14 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.FORGEJO_REPOSITORY }}:testing-${{ env.FORGEJO_REF_NAME}}
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ forgejo.repository }}:testing-${{ forgejo.ref_name }}
       - name: Prod build
         if: forgejo.ref == 'refs/heads/master' || forgejo.ref == 'refs/heads/main'
         uses: docker/build-push-action@v7
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}:${{ env.image_tag}}
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ forgejo.repository }}:${{ env.image_tag }}
 ```
 Nadat je die 2e file gemaakt hebt zal Forgejo automatisch de Actions gaan starten. Deze pipeline gaat dan voor je een docker image bouwen en zal deze als package toevoegen aan de repository.
 
@@ -200,7 +200,7 @@ Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de m
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}::testing-${{ env.FORGEJO_REF_NAME}}
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ forgejo.repository }}::testing-${{ forgejo.ref_name }}
       - name: Prod build
         if: forgejo.ref == 'refs/heads/master' || forgejo.ref == 'refs/heads/main'
         uses: docker/build-push-action@v7
@@ -212,6 +212,6 @@ Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de m
 Het is ook mogelijk om meerdere tags op te geven, hier zetten we bijvoorbeeld ook de `latest` tag.
 ```yaml
           tags: |
-            ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}::${{ env.image_tag}}
-            ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}::latest
+            ${{ vars.DOCKER_REGISTRY }}/${{ forgejo.repository }}::${{ env.image_tag }}
+            ${{ vars.DOCKER_REGISTRY }}/${{ forgejo.repository }}::latest
 ```
