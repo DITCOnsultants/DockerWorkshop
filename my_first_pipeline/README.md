@@ -8,6 +8,8 @@ Omdat het handig kan zijn een self-hosted omgeving hiervoor te draaien hebben we
 * Package repository
 * Clone van deze workshop
 
+Omdat dit een private labje betreft hebben we hier en daar eenvoud verkozen boven veiligheid. [Onderaan](#security-overwegingen) dit document hebben we deze overwegingen toegelicht.
+
 ---
 
 # Forgejo
@@ -23,8 +25,6 @@ Om ook de snelheid erin te houden is er een 2e optie, de `tldr.sh`. Als je deze 
 ![Forgejo installatie](./forgejo.gif)
 
 Tijdens de installatie krijg je een gegenereerd forgejo-admin wachtwoord terug. Deze is later nog op te zoeken in het bestand `.env` in de map vanuit waar je het `tldr.sh` script start.
-
-Dit wachtwoord is niet bijzonder sterk. Mocht je overwegen om Forgejo op een meer bereikbare plek te draaien kies dan vooral voor een complexer wachtwoord met 2FA.
 
 ---
 
@@ -53,9 +53,6 @@ Vervolgens moeten we de secrets opgeven om in te kunnen loggen. Secrets kan je n
 * Klik links onder het user-icon op de [...] knop en kies voor 'Profiel bewerken'.
 * Vervolgens klik je links in het menu op 'Actions' en dan op 'Geheimen'
 * Maak 2 secrets aan, DOCKER_USER met de waarde forgejo-admin en DOCKER_PASS met het wachtwoord van het admin account.
-
-*Let op:* We stellen nu het user password als secret in. Dit is geen best-practice. Voor een betere oplossing maak je bij de user een application token aan. Deze tokens kan je nauwkeuriger van rechten voorzien en eenvoudig vervangen als deze zijn uitgelekt.
-Wil je het dus netter maken sla dan niet het wachtwoord op onder DOCKER_PASS maar geef hierin een token met enkel de rechten: packages 'read and write' op alle repositories.
 
 ---
 
@@ -215,3 +212,23 @@ Het is ook mogelijk om meerdere tags op te geven, hier zetten we bijvoorbeeld oo
             ${{ vars.DOCKER_REGISTRY }}/${{ forgejo.repository }}::${{ env.image_tag }}
             ${{ vars.DOCKER_REGISTRY }}/${{ forgejo.repository }}::latest
 ```
+
+# Security overwegingen
+Om deze demo/workshop compact en eenvoudig te houden hebben we hier en daar keuzes gemaakt die je voor een productie setup anders zou doen.
+
+## HTTP vs HTTPS
+Omdat we niet allemaal een eigen domein en/of PKI hebben, waar we gemakkelijk een TLS certificaat voor kunnen maken, ontsluiten we de Forgejo applicatie over HTTP.
+Voor een meer productie opstelling zou je hier een reverse proxy (nginx, Traefik, etc.) voor plaatsen met een geldig TLS certificaat.
+
+## Runner
+Naast een container met Forgejo draait er ook een forgejo-runner. Dit is een docker container welke de workflow taken delegeert naar een dedicated container per job.
+In onze omgeving gebruiken we de docker engine op de VM om de taken uit te voeren. Voor productie-like setups is dit niet aanbevolen. Daarvoor kan je beter docker-in-docker draaien om te voorkomen dat een taak in een job invloed kan uitoefenen op de Forgejo container.
+
+Tevens zou je voor een productie setup niet 1 runner maken voor alle projecten. Meestal maak je setjes van runners voor bepaalde toepassingen. Zowel voor HA als ook functie scheiding per groep van projecten en/of organisaties.
+
+## 2FA / MFA
+De forgejo-admin user in deze workshop heeft enkel een wachtwoord. Dit wachtwoord is niet bijzonder sterk. Mocht je overwegen om Forgejo op een meer bereikbare plek te draaien kies dan vooral voor een complexer wachtwoord met 2FA of zelfs OAUTH toe te passen.
+
+## Tokens vs. Wachtwoord in pipelines
+Voor het draaien van onze pipeline stellen we het wachtwoord in als een secret. Dit is geen best-practice. Voor een betere oplossing maak je bij de user een application token aan. Deze tokens kan je nauwkeuriger van rechten voorzien en eenvoudig vervangen als deze zijn uitgelekt.
+Wil je het dus netter maken sla dan niet het wachtwoord op onder DOCKER_PASS maar geef hierin een token met enkel de rechten: packages 'read and write' op alle repositories. Voor productie installaties zou je ook kunnen overwegen een externe vault applicatie te gebruiken.
