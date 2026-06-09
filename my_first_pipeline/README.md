@@ -54,6 +54,9 @@ Vervolgens moeten we de secrets opgeven om in te kunnen loggen. Secrets kan je n
 * Vervolgens klik je links in het menu op 'Actions' en dan op 'Geheimen'
 * Maak 2 secrets aan, DOCKER_USER met de waarde forgejo-admin en DOCKER_PASS met het wachtwoord van het admin account.
 
+*Let op:* We stellen nu het user password als secret in. Dit is geen best-practice. Voor een betere oplossing maak je bij de user een application token aan. Deze tokens kan je nauwkeuriger van rechten voorzien en eenvoudig vervangen als deze zijn uitgelekt.
+Wil je het dus netter maken sla dan niet het wachtwoord op onder DOCKER_PASS maar geef hierin een token met enkel de rechten: packages 'read and write' op alle repositories.
+
 ---
 
 ### Nieuwe repository
@@ -78,11 +81,9 @@ on:
     - cron: '0 0 8 * *'
 
 env:
-  image_org: forgejo-admin  # Onder deze naam staat de repo
-  image_name: dockertestimage  # Deze naam krijgt de image
   image_tag: v1  # Deze tag geven we mee
-  # Verder hebben we een username en password nodig
-  # Deze stellen we als 'secret' in bij de instellingen van de actions
+  # Verder hebben we een DOCKER_REGISTRY, DOCKER_USER en DOCKER_PASS nodig
+  # Deze stellen we als vars en secret in, bij de instellingen van de actions
 
 jobs:
   build-and-push:
@@ -94,21 +95,21 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
           registry: ${{ vars.DOCKER_REGISTRY }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Test build
         if: forgejo.ref != 'refs/heads/master' && forgejo.ref != 'refs/heads/main'
         uses: docker/build-push-action@v7
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:testing-${{ env.FORGEJO_REF_NAME}}
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.FORGEJO_REPOSITORY }}:testing-${{ env.FORGEJO_REF_NAME}}
       - name: Prod build
         if: forgejo.ref == 'refs/heads/master' || forgejo.ref == 'refs/heads/main'
         uses: docker/build-push-action@v7
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:${{ env.image_tag}}
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}:${{ env.image_tag}}
 ```
 Nadat je die 2e file gemaakt hebt zal Forgejo automatisch de Actions gaan starten. Deze pipeline gaat dan voor je een docker image bouwen en zal deze als package toevoegen aan de repository.
 
@@ -152,14 +153,12 @@ on:
     - cron: '0 0 8 * *'
 ```
 
-Vervolgens zetten we een aantal variabelen in de 'environment' zodat we deze later kunnen hergebruiken.
+Vervolgens zetten we een variabele in de 'environment' zodat we deze later kunnen hergebruiken.
 ```yaml
 env:
-  image_org: forgejo-admin  # Onder deze naam staat de repo
-  image_name: dockertestimage  # Deze naam krijgt de image
   image_tag: v1  # Deze tag geven we mee
-  # Verder hebben we een username en password nodig
-  # Deze stellen we als 'secret' in bij de instellingen van de actions
+  # Verder hebben we een DOCKER_REGISTRY, DOCKER_USER en DOCKER_PASS nodig
+  # Deze stellen we als vars en secret in, bij de instellingen van de actions
 ```
 
 Een pipeline bevat altijd 1 of meerdere jobs. Binnen een job kan je meerdere taken (steps) uitvoeren, je kan ook meerdere jobs beschrijven die ieder 1 of meerdere taken bevatten.
@@ -186,7 +185,7 @@ We gebruiken in deze steps diverse externe bibliotheken. Forgejo zal deze automa
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
           registry: ${{ vars.DOCKER_REGISTRY }}
-      - uses: actions/checkout@v4  # Zonder de checkout stap, hebben we nog geen toegang tot de code van de huidige repo
+      - uses: actions/checkout@v6  # Zonder de checkout stap, hebben we nog geen toegang tot de code van de huidige repo
 ```
 
 Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de main/master branch zitten, publiceren we enkel een test image.
@@ -197,7 +196,7 @@ Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de m
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:testing-${{ env.FORGEJO_REF_NAME}}
+          tags: ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}::testing-${{ env.FORGEJO_REF_NAME}}
       - name: Prod build
         if: forgejo.ref == 'refs/heads/master' || forgejo.ref == 'refs/heads/main'
         uses: docker/build-push-action@v7
@@ -209,6 +208,6 @@ Ook kunnen we voor een step een `if` statement gebruiken. Indien we niet in de m
 Het is ook mogelijk om meerdere tags op te geven, hier zetten we bijvoorbeeld ook de `latest` tag.
 ```yaml
           tags: |
-            ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:${{ env.image_tag}}
-            ${{ vars.DOCKER_REGISTRY }}/${{ env.image_org}}/${{ env.image_name}}:latest
+            ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}::${{ env.image_tag}}
+            ${{ vars.DOCKER_REGISTRY }}/${{ FORGEJO_REPOSITORY }}::latest
 ```
