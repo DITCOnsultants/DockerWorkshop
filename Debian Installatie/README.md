@@ -1,5 +1,8 @@
 # OS Installatie
 
+## De ISO
+[Debian 13 ISO](https://www.debian.org/download)
+
 ## Taal en Regio
 De OS installatie is vrij basis, we kiezen heel bewust voor een Engelse installatie met als location "Europe / Netherlands". Dit zorgt ervoor dat de tijdzone goed staat, een lokale mirror gebruikt wordt en we niet een Nederlands OS hebben.
 
