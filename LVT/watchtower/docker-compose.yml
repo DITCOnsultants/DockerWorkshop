@@ -1,0 +1,13 @@
+---
+services:
+  watchtower:
+    container_name: watchtower
+    image: nickfedor/watchtower:latest
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_SCHEDULE=0 */15 * * * *  # Ieder kwartier
+      - WATCHTOWER_CLEANUP=true  # Oude images weggooien
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - /home/myuser/.docker/config.json:/config.json:ro  # Docker login voor je zelfgebouwde images
