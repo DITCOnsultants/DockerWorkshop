@@ -15,7 +15,7 @@ sed -i "s/fill_with_forgejo_uid/$(id -u forgejo)/" .env
 sed -i "s/fill_with_forgejo_gid/$(id -g forgejo)/" .env
 
 IPADDR=`hostname -I | awk '{ print $1 }'`
-sed -i "s|http://localhost|http://$IPADDR|" .env
+sed -i "s|localhost|$IPADDR|g" .env
 sed -i "s/fill_with_docker_gid/$(getent group docker | cut -d: -f3)/" .env
 
 sed -i "0,/changeme_generate_with_openssl_rand_hex_32/{s/changeme_generate_with_openssl_rand_hex_32/$(openssl rand -hex 32)/}" .env
