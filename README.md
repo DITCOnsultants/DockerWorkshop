@@ -21,6 +21,7 @@ Vergelijk:
 - Container = deelt kernel, alleen applicatie + dependencies
 
 ![VM's versus LXC versus Containers](./VM%20vs%20LXC%20vs%20Containers.svg)
+
 Voordelen:
 - Sneller starten (ms/seconden)
 - Minder resources nodig
