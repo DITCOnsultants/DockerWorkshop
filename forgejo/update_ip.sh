@@ -23,4 +23,4 @@ else
   docker compose up -d
 fi
 
-echo "LET OP: Tijdens de workshop hebben we in Forgejo ook een DOCKER_REGISTRY variabele gemaakt, deze dien je ook bij te werken naar $IPADDR:3000
+echo "LET OP: Tijdens de workshop hebben we in Forgejo ook een DOCKER_REGISTRY variabele gemaakt, deze dien je ook bij te werken naar $IPADDR:3000"
